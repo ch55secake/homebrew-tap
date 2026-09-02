@@ -1,0 +1,25 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+      - name: Register checked-out tap
+        run: |
+          tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
+          mkdir -p "$(dirname "${tap_path}")"
+          ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+      - name: Audit formulae
+        run: brew audit --new --strict --online --tap ch55secake/tap
+      - name: Check formula style
+        run: brew style Formula/a/apollo.rb Formula/a/augur.rb Formula/c/convoy.rb Formula/s/symphony.rb
