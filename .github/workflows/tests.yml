@@ -22,4 +22,4 @@ jobs:
       - name: Audit formulae
         run: brew audit --new --strict --online --tap ch55secake/tap
       - name: Check formula style
-        run: brew style Formula/a/apollo.rb Formula/a/augur.rb Formula/c/convoy.rb Formula/s/symphony.rb
+        run: brew style Formula/a/apollo.rb Formula/a/augur.rb Formula/c/convoy.rb Formula/o/orbit.rb Formula/s/symphony.rb

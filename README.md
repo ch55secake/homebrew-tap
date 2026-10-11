@@ -11,6 +11,7 @@ Install a formula directly without manually tapping the repository:
 brew install ch55secake/tap/apollo
 brew install ch55secake/tap/convoy
 brew install ch55secake/tap/augur
+brew install ch55secake/tap/orbit
 brew install ch55secake/tap/symphony
 ```
 
@@ -21,6 +22,7 @@ brew install ch55secake/tap/symphony
 | `apollo` | Dashboarding TUI using Prometheus as a data source | [ch55secake/apollo](https://github.com/ch55secake/apollo) |
 | `convoy` | Orchestrate multiple Alpine Linux containers and tasks | [ch55secake/convoy](https://github.com/ch55secake/convoy) |
 | `augur` | Monitor SSH connections and terminate sessions with unrecognized keys | [ch55secake/augur](https://github.com/ch55secake/augur) |
+| `orbit` | Terminal-native mission control for your servers | [ch55secake/orbit](https://github.com/ch55secake/orbit) |
 | `symphony` | Auditable terminal coding-agent harness | [ch55secake/symphony](https://github.com/ch55secake/symphony) |
 
 Augur currently provides a macOS arm64 binary and Linux arm64/amd64 binaries;
