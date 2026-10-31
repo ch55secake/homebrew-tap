@@ -23,11 +23,24 @@ jobs:
         run: python3 -m unittest discover -s scripts/tests
       - name: Audit formulae
         run: brew audit --new --strict --online --tap ch55secake/tap
-      - name: Audit Caelum cask
-        if: ${{ hashFiles('Casks/caelum.rb') != '' }}
-        run: brew audit --cask --strict --online caelum
       - name: Check formula style
         run: brew style Formula/a/apollo.rb Formula/a/augur.rb Formula/c/convoy.rb Formula/g/glance.rb Formula/o/orbit.rb Formula/s/symphony.rb
       - name: Check Caelum package style
         if: ${{ hashFiles('Formula/c/caelum-cli.rb') != '' && hashFiles('Casks/caelum.rb') != '' }}
         run: brew style Formula/c/caelum-cli.rb Casks/caelum.rb
+
+  cask-audit:
+    runs-on: macos-15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+      - name: Register checked-out tap
+        run: |
+          tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
+          mkdir -p "$(dirname "${tap_path}")"
+          ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+      - name: Audit Caelum cask
+        if: ${{ hashFiles('Casks/caelum.rb') != '' }}
+        run: brew audit --cask --strict --online ch55secake/tap/caelum
