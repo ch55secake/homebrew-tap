@@ -16,10 +16,27 @@ brew install ch55secake/tap/orbit
 brew install ch55secake/tap/symphony
 ```
 
+<!-- BEGIN CAELUM PACKAGES -->
+## Caelum
+
+Install the desktop app and standalone CLI separately:
+
+```sh
+brew install --cask ch55secake/tap/caelum
+brew install ch55secake/tap/caelum-cli
+```
+
+Caelum is not notarized by Apple. After the first launch attempt, macOS may require
+**System Settings → Privacy & Security → Open Anyway**. See the
+[release guide](https://github.com/ch55secake/caelum/blob/main/docs/releasing.md)
+for direct downloads and installation details.
+<!-- END CAELUM PACKAGES -->
+
 ## Formulae
 
 | Formula | Description | Upstream |
 | --- | --- | --- |
+| `caelum-cli` | Command-line interface for the Caelum coding workspace | [ch55secake/caelum](https://github.com/ch55secake/caelum) |
 | `apollo` | Dashboarding TUI using Prometheus as a data source | [ch55secake/apollo](https://github.com/ch55secake/apollo) |
 | `convoy` | Orchestrate multiple Alpine Linux containers and tasks | [ch55secake/convoy](https://github.com/ch55secake/convoy) |
 | `augur` | Monitor SSH connections and terminate sessions with unrecognized keys | [ch55secake/augur](https://github.com/ch55secake/augur) |

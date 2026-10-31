@@ -46,7 +46,9 @@ class RenderCaelumReleaseTests(unittest.TestCase):
         cask = (self.tap / "Casks/caelum.rb").read_text()
         readme = (self.tap / "README.md").read_text()
 
-        self.assertIn('version "0.1.0"', formula)
+        for asset in ASSETS[:2]:
+            self.assertIn(f"releases/download/v0.1.0/{asset}", formula)
+        self.assertIn('version "0.1.0"', cask)
         self.assertIn('license "MIT"', formula)
         self.assertIn('cask "caelum"', cask)
         self.assertNotIn("$AARCH64", formula + cask)
