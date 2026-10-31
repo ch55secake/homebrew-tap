@@ -49,6 +49,11 @@ Install the desktop app and standalone CLI separately:
 brew install --cask ch55secake/tap/caelum
 brew install ch55secake/tap/caelum-cli
 ```
+
+Caelum is not notarized by Apple. After the first launch attempt, macOS may require
+**System Settings → Privacy & Security → Open Anyway**. See the
+[release guide](https://github.com/ch55secake/caelum/blob/main/docs/releasing.md)
+for direct downloads and installation details.
 {end}"""
     if start in content and end in content:
         before, remainder = content.split(start, maxsplit=1)
