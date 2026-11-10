@@ -10,7 +10,7 @@ cask "caelum" do
   desc "Local-first AI coding workspace"
   homepage "https://github.com/ch55secake/caelum"
 
-  depends_on :macos
+  depends_on macos: :ventura
 
   app "Caelum.app"
 
