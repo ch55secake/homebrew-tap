@@ -6,11 +6,11 @@ class CaelumCli < Formula
   depends_on :macos
 
   if Hardware::CPU.arm?
-    url "https://github.com/ch55secake/caelum/releases/download/v0.1.11/caelum-cli-v0.1.11-aarch64-apple-darwin.tar.gz"
-    sha256 "490bfeed32ee98de840bb2f6d8e32ff85071ca3a0b7af8a0c6ca12520832c452"
+    url "https://github.com/ch55secake/caelum/releases/download/v0.1.44/caelum-cli-v0.1.44-aarch64-apple-darwin.tar.gz"
+    sha256 "c8f127fb2a30f3f391df54c95e1473a2f6a3f663b88fd48ed4859860d10f1bbc"
   else
-    url "https://github.com/ch55secake/caelum/releases/download/v0.1.11/caelum-cli-v0.1.11-x86_64-apple-darwin.tar.gz"
-    sha256 "00243eb601e3b239d5cb05fd34597df63152d8aa80a8337b207e84fb915db90e"
+    url "https://github.com/ch55secake/caelum/releases/download/v0.1.44/caelum-cli-v0.1.44-x86_64-apple-darwin.tar.gz"
+    sha256 "ae473cf0ae3da3df5595c704c08ea17e850bb22547ec2e69890f27213c11c1ad"
   end
 
   def install
