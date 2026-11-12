@@ -50,6 +50,7 @@ class RenderCaelumReleaseTests(unittest.TestCase):
             self.assertIn(f"releases/download/v0.1.0/{asset}", formula)
         self.assertIn('version "0.1.0"', cask)
         self.assertIn("depends_on macos: :ventura", cask)
+        self.assertIn("strategy :github_latest", cask)
         self.assertIn('license "MIT"', formula)
         self.assertIn('cask "caelum"', cask)
         self.assertNotIn("$AARCH64", formula + cask)
