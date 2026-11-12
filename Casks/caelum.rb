@@ -1,9 +1,9 @@
 cask "caelum" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "0.1.45"
-  sha256 arm:   "6b8370afef317577664f485123f06e8ffd96c27b853cf422a53f384c1f9f9d92",
-         intel: "7ee37d33e860140ef7c88aa5fac96ea0f92ee484ebaae19d55add2d04eb8ebc8"
+  version "0.1.50"
+  sha256 arm:   "09539dcdfce2c4f44275a17ac73f2b5a9e4e36e192b5d5dd0e62f3eb9f40ea31",
+         intel: "cc6495d88fa20e53dd1a9d141fb068f88317760b86caf5edeb450ab5fa3db9ca"
 
   url "https://github.com/ch55secake/caelum/releases/download/v#{version}/Caelum-v#{version}-#{arch}.dmg"
   name "Caelum"
