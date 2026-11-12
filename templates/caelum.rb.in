@@ -10,6 +10,11 @@ cask "caelum" do
   desc "Local-first AI coding workspace"
   homepage "https://github.com/ch55secake/caelum"
 
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
   depends_on macos: :ventura
 
   app "Caelum.app"
