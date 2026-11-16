@@ -52,7 +52,7 @@ brew install ch55secake/tap/caelum-cli
 
 Caelum is not notarized by Apple. After the first launch attempt, macOS may require
 **System Settings → Privacy & Security → Open Anyway**. See the
-[release guide](https://github.com/ch55secake/caelum/blob/main/docs/releasing.md)
+[release guide](https://github.com/caelurium/caelum/blob/main/docs/releasing.md)
 for direct downloads and installation details.
 {end}"""
     if start in content and end in content:
@@ -67,13 +67,17 @@ for direct downloads and installation details.
 
     formula_row = (
         "| `caelum-cli` | Command-line interface for the Caelum coding workspace | "
-        "[ch55secake/caelum](https://github.com/ch55secake/caelum) |"
+        "[caelurium/caelum](https://github.com/caelurium/caelum) |"
     )
-    if formula_row not in content:
-        lines = content.splitlines()
+    lines = content.splitlines()
+    for index, line in enumerate(lines):
+        if line.startswith("| `caelum-cli` |"):
+            lines[index] = formula_row
+            break
+    else:
         formulae_index = next((i for i, line in enumerate(lines) if line == "## Formulae"), None)
         if formulae_index is None:
-            raise SystemExit(f"could not find {formulae!r} section in {readme}")
+            raise SystemExit(f"could not find '## Formulae' section in {readme}")
         separator_index = next(
             (i for i in range(formulae_index + 1, len(lines)) if lines[i].startswith("| ---")),
             None,
@@ -81,7 +85,7 @@ for direct downloads and installation details.
         if separator_index is None:
             raise SystemExit(f"could not find formula table in {readme}")
         lines.insert(separator_index + 1, formula_row)
-        content = "\n".join(lines) + "\n"
+    content = "\n".join(lines) + "\n"
     readme.write_text(content)
 
 

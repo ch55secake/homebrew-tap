@@ -66,6 +66,23 @@ class RenderCaelumReleaseTests(unittest.TestCase):
         readme = (self.tap / "README.md").read_text()
         self.assertEqual(readme.count("<!-- BEGIN CAELUM PACKAGES -->"), 1)
 
+    def test_repository_transfer_updates_the_existing_formula_row(self) -> None:
+        readme_path = self.tap / "README.md"
+        readme_path.write_text(
+            readme_path.read_text()
+            + "| `caelum-cli` | Previous description | "
+            "[previous-owner/caelum](https://github.com/previous-owner/caelum) |\n"
+        )
+
+        for _ in range(2):
+            result = self.run_renderer()
+            self.assertEqual(result.returncode, 0, result.stderr)
+
+        readme = readme_path.read_text()
+        self.assertEqual(readme.count("| `caelum-cli` |"), 1)
+        self.assertIn("[caelurium/caelum](https://github.com/caelurium/caelum)", readme)
+        self.assertNotIn("previous-owner/caelum", readme)
+
     def test_missing_checksum_fails_without_writing_package_files(self) -> None:
         self.checksums.write_text("")
 
