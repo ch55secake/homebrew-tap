@@ -9,9 +9,7 @@ ROOT = Path(__file__).resolve().parents[2]
 RENDERER = ROOT / "scripts/render_caelum_release.py"
 ASSETS = (
     "caelum-cli-v0.1.0-aarch64-apple-darwin.tar.gz",
-    "caelum-cli-v0.1.0-x86_64-apple-darwin.tar.gz",
     "Caelum-v0.1.0-aarch64.dmg",
-    "Caelum-v0.1.0-x86_64.dmg",
 )
 
 
@@ -46,8 +44,10 @@ class RenderCaelumReleaseTests(unittest.TestCase):
         cask = (self.tap / "Casks/caelum.rb").read_text()
         readme = (self.tap / "README.md").read_text()
 
-        for asset in ASSETS[:2]:
-            self.assertIn(f"releases/download/v0.1.0/{asset}", formula)
+        self.assertIn(f"releases/download/v0.1.0/{ASSETS[0]}", formula)
+        for package in (formula, cask):
+            self.assertIn("depends_on arch: :arm64", package)
+            self.assertNotIn("x86_64", package)
         self.assertIn('version "0.1.0"', cask)
         self.assertIn("depends_on macos: :ventura", cask)
         self.assertIn("strategy :github_latest", cask)
@@ -56,6 +56,18 @@ class RenderCaelumReleaseTests(unittest.TestCase):
         self.assertNotIn("$AARCH64", formula + cask)
         self.assertIn("brew install --cask ch55secake/tap/caelum", readme)
         self.assertIn("| `caelum-cli` |", readme)
+
+    def test_historical_multiarch_checksums_still_render_apple_silicon_packages(self) -> None:
+        old_assets = ("caelum-cli-v0.1.0-x86_64-apple-darwin.tar.gz", "Caelum-v0.1.0-x86_64.dmg")
+        with self.checksums.open("a") as checksums:
+            for asset in old_assets:
+                checksums.write(f"{hashlib.sha256(asset.encode()).hexdigest()}  {asset}\n")
+        result = self.run_renderer()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        for package in ("Formula/c/caelum-cli.rb", "Casks/caelum.rb"):
+            content = (self.tap / package).read_text()
+            self.assertIn("depends_on arch: :arm64", content)
+            self.assertNotIn("x86_64", content)
 
     def test_repeated_release_updates_are_idempotent(self) -> None:
         first = self.run_renderer()

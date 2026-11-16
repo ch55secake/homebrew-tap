@@ -19,7 +19,7 @@ brew install ch55secake/tap/symphony
 <!-- BEGIN CAELUM PACKAGES -->
 ## Caelum
 
-Install the desktop app and standalone CLI separately:
+On Apple Silicon Macs, install the desktop app and standalone CLI separately:
 
 ```sh
 brew install --cask ch55secake/tap/caelum

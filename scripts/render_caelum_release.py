@@ -12,9 +12,7 @@ from string import Template
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = {
     "AARCH64_CLI_SHA256": "caelum-cli-v{version}-aarch64-apple-darwin.tar.gz",
-    "X86_64_CLI_SHA256": "caelum-cli-v{version}-x86_64-apple-darwin.tar.gz",
     "AARCH64_DMG_SHA256": "Caelum-v{version}-aarch64.dmg",
-    "X86_64_DMG_SHA256": "Caelum-v{version}-x86_64.dmg",
 }
 README_MARKERS = ("<!-- BEGIN CAELUM PACKAGES -->", "<!-- END CAELUM PACKAGES -->")
 
@@ -43,7 +41,7 @@ def update_readme(tap: Path) -> None:
     section = f"""{start}
 ## Caelum
 
-Install the desktop app and standalone CLI separately:
+On Apple Silicon Macs, install the desktop app and standalone CLI separately:
 
 ```sh
 brew install --cask ch55secake/tap/caelum
