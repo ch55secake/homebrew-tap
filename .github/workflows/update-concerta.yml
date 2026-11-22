@@ -9,6 +9,10 @@ permissions:
   contents: write
   pull-requests: write
 
+concurrency:
+  group: concerta-cask-update
+  cancel-in-progress: false
+
 jobs:
   update:
     name: Check for a new Concerta release
@@ -45,6 +49,7 @@ jobs:
         run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/concerta
 
       - name: Open cask update pull request
+        id: cask-pr
         if: steps.update.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v8
         with:
@@ -57,3 +62,14 @@ jobs:
           body: |
             Updates the Concerta cask from the latest published GitHub release,
             including its Apple silicon and Intel SHA-256 digests.
+
+      - name: Merge validated cask update
+        if: steps.update.outputs.changed == 'true' && steps.cask-pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PULL_REQUEST_NUMBER: ${{ steps.cask-pr.outputs.pull-request-number }}
+        run: |
+          gh pr merge "$PULL_REQUEST_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --squash \
+            --delete-branch
