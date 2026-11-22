@@ -1,6 +1,8 @@
+import os
 import sys
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -32,6 +34,12 @@ def release(tag: str, arm_sha: str = NEW_ARM_SHA, intel_sha: str = NEW_INTEL_SHA
 
 
 class UpdateConcertaCaskTests(unittest.TestCase):
+    def test_latest_release_request_uses_workflow_token(self) -> None:
+        with patch.dict(os.environ, {"GH_TOKEN": "test-token"}, clear=True):
+            request = update_concerta_cask.latest_release_request()
+
+        self.assertEqual(request.get_header("Authorization"), "Bearer test-token")
+
     def test_updates_version_and_both_architecture_checksums(self) -> None:
         updated, version, changed = update_concerta_cask.update_cask_text(CASK, release("v0.1.1"))
 
