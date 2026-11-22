@@ -1,9 +1,9 @@
 cask "concerta" do
   arch arm: "aarch64", intel: "x86_64"
 
-  version "0.1.2"
-  sha256 arm:   "1dbe21976b3f84697c2551bfe0efdc73e3f9948b78b0bf20ab49ae2f2a29e4f2",
-         intel: "d4754daa0d03cfe062a4e99c7d74ea9fb6fd0e1406bd8a6bea63782ffe5cae6a"
+  version "0.1.3"
+  sha256 arm:   "97eb7b1ff78a5c86645f87e3f3b34d7907a9a0c00d423183009e47f2a10253f5",
+         intel: "ec433176761851940968e1484aa2b6ed5f2416bd2e2650ee96796e02e7abda61"
 
   url "https://github.com/ch55secake/concerta/releases/download/v#{version}/Concerta-#{arch}.zip"
   name "Concerta"
