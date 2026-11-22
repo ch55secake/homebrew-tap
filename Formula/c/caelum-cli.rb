@@ -1,8 +1,8 @@
 class CaelumCli < Formula
   desc "Command-line interface for the Caelum coding workspace"
   homepage "https://github.com/caelurium/caelum"
-  url "https://github.com/caelurium/caelum/releases/download/v0.1.118/caelum-cli-v0.1.118-aarch64-apple-darwin.tar.gz"
-  sha256 "894f06aaf554e055a871e43813d01297cbaabb50078d4c5876adc03997033e5a"
+  url "https://github.com/caelurium/caelum/releases/download/v0.1.120/caelum-cli-v0.1.120-aarch64-apple-darwin.tar.gz"
+  sha256 "1877dc558c19bbaae658cfdb1eb757713d00f85a8451cd4c2101170fe4ea4cc9"
   license "MIT"
 
   depends_on arch: :arm64
