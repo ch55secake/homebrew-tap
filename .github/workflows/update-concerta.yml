@@ -1,0 +1,59 @@
+name: Update Concerta cask
+
+on:
+  schedule:
+    - cron: "15 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    name: Check for a new Concerta release
+    runs-on: macos-15
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v7
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Register checked-out tap
+        run: |
+          tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
+          mkdir -p "$(dirname "${tap_path}")"
+          ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+
+      - name: Trust checked-out tap
+        run: brew trust --tap ch55secake/tap
+
+      - name: Test tap scripts
+        run: python3 -m unittest discover -s scripts/tests
+
+      - name: Update Concerta cask
+        id: update
+        run: python3 scripts/update_concerta_cask.py
+
+      - name: Check cask style
+        if: steps.update.outputs.changed == 'true'
+        run: brew style Casks/concerta.rb
+
+      - name: Audit cask
+        if: steps.update.outputs.changed == 'true'
+        run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/concerta
+
+      - name: Open cask update pull request
+        if: steps.update.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ github.token }}
+          branch: automation/concerta-cask
+          delete-branch: true
+          add-paths: Casks/concerta.rb
+          commit-message: "chore(concerta): update cask to ${{ steps.update.outputs.version }}"
+          title: "chore(concerta): update cask to ${{ steps.update.outputs.version }}"
+          body: |
+            Updates the Concerta cask from the latest published GitHub release,
+            including its Apple silicon and Intel SHA-256 digests.
