@@ -1,6 +1,6 @@
 # homebrew-tap
 
-Personal Homebrew tap for command-line tools published by
+Personal Homebrew tap for command-line tools and macOS apps published by
 [ch55secake](https://github.com/ch55secake).
 
 ## Install
@@ -15,6 +15,19 @@ brew install ch55secake/tap/glance
 brew install ch55secake/tap/orbit
 brew install ch55secake/tap/symphony
 ```
+
+## Concerta
+
+Install the menu-bar app:
+
+```sh
+brew install --cask ch55secake/tap/concerta
+```
+
+Concerta is available for Apple silicon and Intel Macs. It is not notarized by
+Apple; on first launch, macOS may require **System Settings → Privacy & Security
+→ Open Anyway**. See the [releases](https://github.com/ch55secake/concerta/releases)
+for the latest version and direct downloads.
 
 <!-- BEGIN CAELUM PACKAGES -->
 ## Caelum
@@ -49,9 +62,9 @@ Intel macOS is not supported by the upstream release.
 
 ## Maintainer Notes
 
-Formulae use immutable GitHub release assets and SHA-256 checksums. When an
-upstream project publishes a new release, update its formula with the new
-version, platform assets, and checksums, then run:
+Formulae and casks use immutable GitHub release assets and SHA-256 checksums.
+When an upstream project publishes a new release, update its package with the
+new version, platform assets, and checksums, then run:
 
 ```sh
 brew audit --new --strict --online --tap ch55secake/tap
