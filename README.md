@@ -27,7 +27,8 @@ brew install --cask ch55secake/tap/concerta
 Concerta is available for Apple silicon and Intel Macs. It is not notarized by
 Apple; on first launch, macOS may require **System Settings → Privacy & Security
 → Open Anyway**. See the [releases](https://github.com/ch55secake/concerta/releases)
-for the latest version and direct downloads.
+for the latest version and direct downloads. The tap checks for new releases
+every six hours and opens a pull request with updated checksums.
 
 <!-- BEGIN CAELUM PACKAGES -->
 ## Caelum
