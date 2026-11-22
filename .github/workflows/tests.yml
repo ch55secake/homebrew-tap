@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
       - name: Register checked-out tap
@@ -19,6 +19,8 @@ jobs:
           tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
           mkdir -p "$(dirname "${tap_path}")"
           ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+      - name: Trust checked-out tap
+        run: brew trust --tap ch55secake/tap
       - name: Test Caelum release renderer
         run: python3 -m unittest discover -s scripts/tests
       - name: Audit formulae
@@ -29,11 +31,15 @@ jobs:
         if: ${{ hashFiles('Formula/c/caelum-cli.rb') != '' && hashFiles('Casks/caelum.rb') != '' }}
         run: brew style Formula/c/caelum-cli.rb Casks/caelum.rb
 
+      - name: Check Concerta cask style
+        if: ${{ hashFiles('Casks/concerta.rb') != '' }}
+        run: brew style Casks/concerta.rb
+
   cask-audit:
     runs-on: macos-15
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
       - name: Register checked-out tap
@@ -41,6 +47,12 @@ jobs:
           tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
           mkdir -p "$(dirname "${tap_path}")"
           ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+      - name: Trust checked-out tap
+        run: brew trust --tap ch55secake/tap
       - name: Audit Caelum cask
         if: ${{ hashFiles('Casks/caelum.rb') != '' }}
         run: brew audit --cask --strict --online ch55secake/tap/caelum
+
+      - name: Audit Concerta cask
+        if: ${{ hashFiles('Casks/concerta.rb') != '' }}
+        run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/concerta
