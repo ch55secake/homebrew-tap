@@ -98,16 +98,24 @@ def write_github_outputs(version: str, changed: bool) -> None:
         output.write(f"changed={'true' if changed else 'false'}\n")
 
 
-def fetch_latest_release() -> dict[str, object]:
-    request = Request(
+def latest_release_request() -> Request:
+    headers = {
+        "Accept": "application/vnd.github+json",
+        "User-Agent": "homebrew-tap-concerta-updater",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+    token = os.environ.get("GH_TOKEN") or os.environ.get("GITHUB_TOKEN")
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+
+    return Request(
         RELEASE_URL,
-        headers={
-            "Accept": "application/vnd.github+json",
-            "User-Agent": "homebrew-tap-concerta-updater",
-            "X-GitHub-Api-Version": "2022-11-28",
-        },
+        headers=headers,
     )
-    with urlopen(request, timeout=30) as response:
+
+
+def fetch_latest_release() -> dict[str, object]:
+    with urlopen(latest_release_request(), timeout=30) as response:
         payload = json.load(response)
     if not isinstance(payload, dict):
         raise ValueError("GitHub returned an invalid release response")
