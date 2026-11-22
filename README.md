@@ -28,7 +28,8 @@ Concerta is available for Apple silicon and Intel Macs. It is not notarized by
 Apple; on first launch, macOS may require **System Settings → Privacy & Security
 → Open Anyway**. See the [releases](https://github.com/ch55secake/concerta/releases)
 for the latest version and direct downloads. The tap checks for new releases
-every six hours and opens a pull request with updated checksums.
+every six hours, validates new archives, and automatically merges the cask
+version and checksum update.
 
 <!-- BEGIN CAELUM PACKAGES -->
 ## Caelum
