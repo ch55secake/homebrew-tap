@@ -1,6 +1,6 @@
 cask "caelum" do
-  version "0.1.118"
-  sha256 "679c7f202930c7acf1b496316c9d053b644e8fe885684bd34108ef70576df192"
+  version "0.1.127"
+  sha256 "15493ffe80568f482bf87736223d5b9a07b84795a7c409ba3f09a53e5959b77b"
 
   url "https://github.com/caelurium/caelum/releases/download/v#{version}/Caelum-v#{version}-aarch64.dmg"
   name "Caelum"
