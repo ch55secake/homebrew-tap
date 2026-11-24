@@ -1,9 +1,9 @@
 cask "vela" do
   arch arm: "arm64", intel: "x86_64"
 
-  version "0.1.0"
-  sha256 arm:   "1cdfdd5edb122a79d974d9f0fc6f86f94b8c98ad1e4eb9b5787760d742c55027",
-         intel: "240f4b8e9966d0e80e48906a391982d4ac747328ad1ad9060d95afe1fff6b999"
+  version "0.2.0"
+  sha256 arm:   "23804b580b0dbe153f816aa8c5d367518cf638f92aab5c9222cc159642978ad7",
+         intel: "460df48e050c7e0e56166889695c413bf3e1905d6858c02b1e58b3df0f45f1ef"
 
   url "https://github.com/ch55secake/vela/releases/download/v#{version}/Vela-#{arch}.zip"
   name "Vela"
