@@ -1,0 +1,77 @@
+name: Update Vela cask
+
+on:
+  schedule:
+    - cron: "45 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: vela-cask-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    name: Check for a new Vela release
+    runs-on: macos-15
+    steps:
+      - name: Check out tap
+        uses: actions/checkout@v7
+
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+
+      - name: Register checked-out tap
+        run: |
+          tap_path="$(brew --repository)/Library/Taps/ch55secake/homebrew-tap"
+          mkdir -p "$(dirname "${tap_path}")"
+          ln -s "${GITHUB_WORKSPACE}" "${tap_path}"
+
+      - name: Trust checked-out tap
+        run: brew trust --tap ch55secake/tap
+
+      - name: Test tap scripts
+        run: python3 -m unittest discover -s scripts/tests
+
+      - name: Update Vela cask
+        id: update
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/update_vela_cask.py
+
+      - name: Check cask style
+        if: steps.update.outputs.changed == 'true'
+        run: brew style Casks/vela.rb
+
+      - name: Audit cask
+        if: steps.update.outputs.changed == 'true'
+        run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/vela
+
+      - name: Open cask update pull request
+        id: cask-pr
+        if: steps.update.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v8
+        with:
+          token: ${{ github.token }}
+          branch: automation/vela-cask
+          delete-branch: true
+          add-paths: Casks/vela.rb
+          commit-message: "chore(vela): update cask to ${{ steps.update.outputs.version }}"
+          title: "chore(vela): update cask to ${{ steps.update.outputs.version }}"
+          body: |
+            Updates the Vela cask from the latest published GitHub release,
+            including its Apple silicon and Intel SHA-256 digests.
+
+      - name: Merge validated cask update
+        if: steps.update.outputs.changed == 'true' && steps.cask-pr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PULL_REQUEST_NUMBER: ${{ steps.cask-pr.outputs.pull-request-number }}
+        run: |
+          gh pr merge "$PULL_REQUEST_NUMBER" \
+            --repo "$GITHUB_REPOSITORY" \
+            --squash \
+            --delete-branch

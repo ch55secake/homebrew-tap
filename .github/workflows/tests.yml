@@ -35,6 +35,10 @@ jobs:
         if: ${{ hashFiles('Casks/concerta.rb') != '' }}
         run: brew style Casks/concerta.rb
 
+      - name: Check Vela cask style
+        if: ${{ hashFiles('Casks/vela.rb') != '' }}
+        run: brew style Casks/vela.rb
+
   cask-audit:
     runs-on: macos-15
     steps:
@@ -83,3 +87,7 @@ jobs:
       - name: Audit Concerta cask
         if: ${{ hashFiles('Casks/concerta.rb') != '' }}
         run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/concerta
+
+      - name: Audit Vela cask
+        if: ${{ hashFiles('Casks/vela.rb') != '' }}
+        run: brew audit --cask --strict --online --except audit_signing,audit_github_repository ch55secake/tap/vela
